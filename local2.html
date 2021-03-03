@@ -1,0 +1,99 @@
+<html>
+    <head>
+        <title>도서검색</title>        
+        <link rel="stylesheet" href="style.css"/>
+        <style>
+            #tbl{width: 900px;overflow: hidden;margin: 0px auto;}
+            .box {width:200px; float: left;background: rgb(187, 140, 231);
+                height: 300px;
+                padding: 5px;margin: 5px;
+                text-align: center;
+                border-radius: 10px;}
+            .box .title{white-space:nowrap; overflow:hidden; 
+                text-overflow:ellipsis; 
+                font-size:12px;width:200px;padding: 5px 5px 0px 0px;font-weight: bold;}
+
+            #darken-background {
+                position:absolute;
+                top:0px;
+                left:0px;
+                right:0px;
+                height:100%;
+                display:none;
+                background:rgba(0, 0, 0, 0.5);
+                z-index:10000;
+                overflow-y:scroll;
+            }
+            #lightbox {
+                width:700px;
+                margin:20px auto;
+                padding:15px;
+                border: 1px solid #333333;
+                border-radius:5px;
+                background:white;
+                box-shadow:0px 5px 5px rgba(34, 25, 25, 0.4);
+                text-align:center;
+            }
+        </style>
+        <script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
+    </head>
+    <body>
+        <div id="page">
+            <div id="top">
+                <a href="blog.html">블로그검색</a>&nbsp;&nbsp;&nbsp;
+                <a href="book.html">도서검색</a>&nbsp;&nbsp;&nbsp;
+                <a href="local.html">지역검색</a>&nbsp;&nbsp;&nbsp;
+            </div>
+            <div id="content">
+                <h1 class="subject">[도서검색]</h1>
+                <div id="divSearch">
+                    <input type="text" id="txtQuery" value="자바">
+                    <input type="button" id="btnSearch" value="검색">
+                    <select id="selSize">
+                        <option value=4>4개씩출력</option>
+                        <option value=8 selected>8개씩출력</option>
+                        <option value=12>12개씩출력</option>
+                        <option value=16>16개씩출력</option>
+                    </select>
+                </div>
+                <table id="tbl"></table>
+                <script id="temp" type="text/x-handlebars-template">  <!--틀을 찍어줄때!-->
+                    {{#each documents}} <!--반복해서 documents에 값을 가져온다.-->
+                    <div class="box">
+                        <div><img src="{{thumbnail}}" width=150></div>
+                        <div class="title">{{title}}</div>
+                        <div>{{price}}원</div>
+                    </div>
+                    {{/each}}    
+                </script>
+                <div id="divPage">
+                    <button id="btnPre">◀</button>
+                    <span id="spanPage"></span>
+                    <button id="btnNext">▶</button>
+                </div>
+            </div>
+            <div id="bottom">
+                <h3>작성자:인천일보아카데미 홍길동</h3>
+            </div>
+            </div>
+            <!--지도출력-->
+            <div id="darken-background">
+                <div id="lightbox">
+                    <div id="map" style="width:600px; height:400px; border:1px solid #000; margin:auto 0;"></div>
+                    <button id="btnClose">닫기</button>
+                </div>
+            </div>
+    </body>
+    <script>
+        var url="https://dapi.kakao.com/v2/local/search/keyword.json";
+        $("#tbl").on("click",".row button", function() {
+            $("#darken-background").show();
+        });
+        $("#btnClose").on("click", function() {
+            $("#darken-background").hide();
+        });
+    </script>
+    <script src="script.js"></script>
+    
+</html>
